@@ -1,0 +1,4 @@
+jwt:
+  config:
+    key: saas-ihrm
+    ttl: 360000
