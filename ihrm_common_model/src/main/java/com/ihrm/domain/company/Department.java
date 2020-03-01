@@ -7,14 +7,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-
-/**
- * @Author: 846602483
- * @Date: 2019-8-4 12:40
- * @Version 1.0
- */
+import java.util.List;
 @Entity
 @Table(name = "co_department")
 @Data
@@ -50,5 +47,8 @@ public class Department implements Serializable {
 
     //创建时间
     private Date createTime;
+
+    @Transient
+    private List<Department> children = new ArrayList<>();
 
 }
