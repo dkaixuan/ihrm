@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Bean;
 //2.配置jpa注解的扫描
 @EntityScan(value="com.ihrm.domain.company")
 //3.注册到eureka
-@EnableEurekaClient
+//@EnableEurekaClient
 public class CompanyApplication {
     public static void main(String[] args) {
         SpringApplication.run(CompanyApplication.class,args);

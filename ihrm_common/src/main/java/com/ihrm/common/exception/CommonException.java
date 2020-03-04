@@ -22,4 +22,6 @@ public class CommonException extends RuntimeException {
         super(resultCode.message());
         this.code = resultCode;
     }
+
+
 }

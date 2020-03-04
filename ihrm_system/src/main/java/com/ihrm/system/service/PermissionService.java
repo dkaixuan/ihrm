@@ -116,7 +116,7 @@ public class PermissionService {
 
     }
 
-    public List<Permission> findAll(Map map) throws Exception {
+    public List<Permission> findAll(Map map){
         Specification<Permission> specification=new Specification<Permission>() {
             @Override
             public Predicate toPredicate(Root<Permission> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {

@@ -21,8 +21,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
-public class User implements Serializable {
+public class User implements Serializable{
     private static final long serialVersionUID = 4297464181093070302L;
     /**
      * ID

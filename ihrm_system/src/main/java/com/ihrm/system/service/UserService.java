@@ -1,9 +1,12 @@
 package com.ihrm.system.service;
 
+import com.ihrm.common.utils.IdWorker;
 import com.ihrm.domain.system.Role;
 import com.ihrm.domain.system.User;
 import com.ihrm.system.dao.RoleDao;
 import com.ihrm.system.dao.UserDao;
+import org.apache.shiro.crypto.hash.Hash;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +29,8 @@ public class UserService {
     private UserDao userDao;
     @Autowired
     private RoleDao roleDao;
+    @Autowired
+    private IdWorker idWorker;
 
     public Page<User> findAll(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page - 1, size);
@@ -84,4 +89,19 @@ public class UserService {
     }
 
 
+    public void deleteById(String id) {
+        userDao.deleteById(id);
+    }
+
+    public void save(User user) {
+        String id = idWorker.nextId() + "";
+        String mobile = user.getMobile();
+        String password = user.getPassword();
+        password = new Md5Hash(password, mobile, 3).toString();
+        user.setId(id);
+        user.setPassword(password);
+        user.setEnableState(1);
+        user.setLevel("user");
+        userDao.save(user);
+    }
 }

@@ -18,10 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: 846602483
@@ -79,18 +76,26 @@ public class RoleService {
      * @param permIds
      */
     public void assignPrems(String roleId, List<String> permIds) {
-        //获取分配的角色对象、
+        //获取分配的角色对象
         Role role = roleDao.findById(roleId).get();
         //构造角色的权限集合
         Set<Permission> perms = new HashSet<>();
         for (String permId : permIds) {
+            //根据Id找到权限
             Permission permission = permissionDao.findById(permId).get();
-            //需要根据父id和类型查询api权限列表
+            //因为分配权限需要把权限下的api同时分配上，所以需要根据父id和类型查询api权限列表,根据父找子
             List<Permission> apiList = permissionDao.findByTypeAndPid(PermissionConstants.PY_API, permission.getId());
+            //因为当前端权限树 子节点不全部选中的话，父节点Id不会传过来，所以需要根据权限Id查询父节点，
+            Optional<Permission> optional = permissionDao.findById(permission.getPid());
+            if (optional.isPresent()) {
+                Permission permissionParent = optional.get();
+                perms.add(permissionParent);
+            }
+
             perms.addAll(apiList);
-            perms.add(permission);//当前菜单或按钮的权限
+            //当前菜单或按钮的权限
+            perms.add(permission);
         }
-        System.out.println(perms.size());
         //设置角色和权限的关系
         role.setPermissions(perms);
         //更新角色

@@ -14,7 +14,6 @@ import java.util.Set;
 @Table(name = "pe_role")
 @Getter
 @Setter
-@ToString
 public class Role implements Serializable {
     private static final long serialVersionUID = 594829320797158219L;
     @Id

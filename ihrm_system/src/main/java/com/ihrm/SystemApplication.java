@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 
 /**
  * @Author: 846602483
@@ -34,4 +35,15 @@ public class SystemApplication {
     public JwtUtil jwtUtil() {
         return new JwtUtil();
     }
+
+    /**
+     * 解决延迟加载 session已经关闭的数据访问异常
+     * 可以使用OpenEntityManagerInViewFilter来将一个JPAsession与一次完整的请求过程对应的线程相绑定。
+     * @return
+     */
+    @Bean
+    public OpenEntityManagerInViewFilter openEntityManagerInViewFilter() {
+        return new OpenEntityManagerInViewFilter();
+    }
+
 }
